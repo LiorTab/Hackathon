@@ -1,11 +1,34 @@
 import socket
 import struct
+import time
+#import getch
+import msvcrt
 
 
-def connectTcp(addr):
+def startPlaying(tcpSocket):
+    start = time.time()
+    while time.time() - start < 10:
+        val = msvcrt.getche()
+        print(val)
+        tcpSocket.send(bytes(val, "utf-8"))
+    print("times up!")
+
+
+def connectTcp(addr,recivedData):
     tcpIp,tcpPort = addr
     tcpSocket = socket.socket(socket.AF_INET,socket.SOCK_STREAM) #TCP
-    tcpSocket.connect((tcpIp,tcpPort))
+    print(tcpIp)
+    print(tcpPort)
+    tcpSocket.connect((tcpIp,5555))
+
+    tcpSocket.send(bytes("Dolphin","utf-8"))
+    data = tcpSocket.recv(1024).decode("utf-8")
+    print(data) ## print welcome msg
+    startPlaying(tcpSocket)
+
+
+def checkMessageTypes(recivedData):
+    return True
 
 
 def startClient():
@@ -13,16 +36,27 @@ def startClient():
     ## wait for offers
     udp_ip = "255.255.255.255"
     udp_port = 5005
+    flag = 0
 
     sock = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
-    sock.bind(("",udp_port))
+    sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1) ## multi clients
+    sock.bind(("",13117))
+    recivedData, addr = sock.recvfrom(1024)  ## check buffer size
+    print(f"Received offer from {addr[0]},attempting to connect...")
 
     while 1:
-        recivedData , addr = sock.recvfrom(1024) ## check buffer size
-        print(f"Received offer from {addr[0]},attempting to connect...")
-        print(addr)
+
+        # print(addr)
+        # print(struct.unpack("Ibh",recivedData))
+        #sock.close()
+        # verify what message
+        check = checkMessageTypes(recivedData)
+        ## what rejected means ?!?!?!!?!?
+        if not check:break
         ## attempting to connect TCP
-        # connectTcp(addr)
+        if flag==0:
+            connectTcp(addr,recivedData)
+            flag=1
         # break ?
 
 
