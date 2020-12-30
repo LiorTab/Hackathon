@@ -15,6 +15,8 @@ class Server:
         self.hostIP = socket.gethostbyname(self.hostName)
         self.port = 2043
         self.teams = []
+        self.tcpSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
 
 
     def sendUdpBroadcast(self):
@@ -41,13 +43,11 @@ class Server:
     def waitForClients(self):
         startTime = time.time()
         threading.Thread(target=server.sendUdpBroadcast).start()
-        tcpSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        tcpSocket.bind(("", server.port))
-        tcpSocket.listen()
+
         while time.time() - startTime < 10:
-            tcpSocket.settimeout(0.1)
+            self.tcpSocket.settimeout(0.1)
             try:
-                client, addr = tcpSocket.accept()
+                client, addr = self.tcpSocket.accept()
                 groupName = client.recv(1024).decode("utf-8")
                 time.sleep(0.1)
                 self.teams.append((client,addr,groupName))
@@ -59,11 +59,13 @@ class Server:
 
 
 if __name__ == '__main__':
+    server = Server()
+    server.tcpSocket.bind(("", server.port))
+    server.tcpSocket.listen()
     while 1:
-        server = Server()
+        server.teams = []
         ## starting msg
         print(f"Server started,listening on IP address {server.hostIP}")
-        teams = []
         ## start sending udp offer annoucements via udp broadcast once every second
         server.waitForClients()
 
