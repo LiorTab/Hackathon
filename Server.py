@@ -31,8 +31,8 @@ class Server:
         start = time.time()
         while time.time() - start < 10:
 
-            client.settimeout(10)
             try:
+                client.settimeout(0.01)
                 chartype = client.recv(1024).decode("utf-8")
                 counter += len(chartype)
             except:
@@ -51,7 +51,9 @@ class Server:
                 groupName = client.recv(1024).decode("utf-8")
                 time.sleep(0.1)
                 self.teams.append((client,addr,groupName))
-            except:continue
+                print(f'{groupName} in the game')
+            except:
+                continue
 
 
 
@@ -60,7 +62,13 @@ class Server:
 
 if __name__ == '__main__':
     server = Server()
-    server.tcpSocket.bind(("", server.port))
+    con=False
+    while not con:
+        try:
+            server.tcpSocket.bind(("", server.port))
+            con=True
+        except:
+            pass
     server.tcpSocket.listen()
     while 1:
         server.teams = []
@@ -87,6 +95,7 @@ if __name__ == '__main__':
 
         for client in server.teams:
             client[0].sendall(bytes(welcomeMsg, "utf-8"))
+        print(welcomeMsg)
 
 
         Group1Res = 0
@@ -117,7 +126,8 @@ if __name__ == '__main__':
                 teamsInGroup = groupOdd
             else:
                 winTeam = "Draw"
-
+            gameOvermsg = f"Game over!\nGroup 1 types in {Group1Res} characters. Group 2 typed in {Group2Res} characters.\n{winTeam}\n\nCongratulations to the winners:\n==\n{teamsInGroup}"
+            print(gameOvermsg)
             for client in server.teams:
                 client[0].send(bytes(f"Game over!\nGroup 1 types in {Group1Res} characters. Group 2 typed in {Group2Res} characters.\n{winTeam}\n\nCongratulations to the winners:\n==\n{teamsInGroup}","utf-8"))
 

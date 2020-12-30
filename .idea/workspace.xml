@@ -4,6 +4,7 @@
     <list default="true" id="09e959ec-0121-4467-b3af-c894a2050f08" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Client.py" beforeDir="false" afterPath="$PROJECT_DIR$/Client.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server.py" beforeDir="false" afterPath="$PROJECT_DIR$/Server.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,8 +37,9 @@
     <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
-  <component name="RunManager" selected="Python.Client">
+  <component name="RunManager" selected="Python.Server">
     <configuration name="Client" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Hackathon" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -128,8 +130,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.Client" />
         <item itemvalue="Python.Server" />
+        <item itemvalue="Python.Client" />
         <item itemvalue="Python.Client2" />
         <item itemvalue="Python.server" />
       </list>
@@ -159,7 +161,7 @@
       <updated>1609181874476</updated>
       <workItem from="1609181877286" duration="755000" />
       <workItem from="1609183599962" duration="4000" />
-      <workItem from="1609183633359" duration="60185000" />
+      <workItem from="1609183633359" duration="64910000" />
     </task>
     <task id="LOCAL-00001" summary="first Steps">
       <created>1609189994447</created>
@@ -203,7 +205,14 @@
       <option name="project" value="LOCAL" />
       <updated>1609354785700</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="COW COW!!">
+      <created>1609356161045</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1609356161045</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -220,65 +229,90 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="275" y="23" key="#Inspections/0.0.1366.728@0.0.1366.728" timestamp="1609335469719" />
-    <state x="416" y="0" key="CommitChangelistDialog2" timestamp="1609354785075">
+    <state x="416" y="0" key="CommitChangelistDialog2" timestamp="1609356160303">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="1951" y="115" key="CommitChangelistDialog2/0.0.1366.728/1366.0.1920.1040@1366.0.1920.1040" timestamp="1609189993599" />
-    <state x="416" y="0" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1609354785075" />
-    <state width="1323" height="117" key="GridCell.Tab.0.bottom" timestamp="1609354249391">
+    <state x="416" y="0" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1609356160303" />
+    <state width="1323" height="311" key="GridCell.Tab.0.bottom" timestamp="1609361559904">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state width="1877" height="282" key="GridCell.Tab.0.bottom/0.0.1366.728/1366.0.1920.1040@1366.0.1920.1040" timestamp="1609189915149" />
-    <state width="1323" height="117" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1609354249391" />
-    <state width="1323" height="117" key="GridCell.Tab.0.center" timestamp="1609354249391">
+    <state width="1323" height="311" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1609361559904" />
+    <state width="1323" height="311" key="GridCell.Tab.0.center" timestamp="1609361559904">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state width="1877" height="282" key="GridCell.Tab.0.center/0.0.1366.728/1366.0.1920.1040@1366.0.1920.1040" timestamp="1609189915148" />
-    <state width="1323" height="117" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1609354249391" />
-    <state width="1323" height="117" key="GridCell.Tab.0.left" timestamp="1609354249391">
+    <state width="1323" height="311" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1609361559904" />
+    <state width="1323" height="311" key="GridCell.Tab.0.left" timestamp="1609361559904">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state width="1877" height="282" key="GridCell.Tab.0.left/0.0.1366.728/1366.0.1920.1040@1366.0.1920.1040" timestamp="1609189915148" />
-    <state width="1323" height="117" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1609354249391" />
-    <state width="1323" height="117" key="GridCell.Tab.0.right" timestamp="1609354249391">
+    <state width="1323" height="311" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1609361559904" />
+    <state width="1323" height="311" key="GridCell.Tab.0.right" timestamp="1609361559904">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state width="1877" height="282" key="GridCell.Tab.0.right/0.0.1366.728/1366.0.1920.1040@1366.0.1920.1040" timestamp="1609189915148" />
-    <state width="1323" height="117" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1609354249391" />
-    <state width="1323" height="223" key="GridCell.Tab.1.bottom" timestamp="1609271915061">
+    <state width="1323" height="311" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1609361559904" />
+    <state width="1323" height="223" key="GridCell.Tab.1.bottom" timestamp="1609361307827">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state width="1877" height="348" key="GridCell.Tab.1.bottom/0.0.1366.728/1366.0.1920.1040@1366.0.1920.1040" timestamp="1609188127912" />
-    <state width="1323" height="223" key="GridCell.Tab.1.bottom/0.0.1366.728@0.0.1366.728" timestamp="1609271915061" />
-    <state width="1323" height="223" key="GridCell.Tab.1.center" timestamp="1609271915061">
+    <state width="1323" height="223" key="GridCell.Tab.1.bottom/0.0.1366.728@0.0.1366.728" timestamp="1609361307827" />
+    <state width="1323" height="223" key="GridCell.Tab.1.center" timestamp="1609361307827">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state width="1877" height="348" key="GridCell.Tab.1.center/0.0.1366.728/1366.0.1920.1040@1366.0.1920.1040" timestamp="1609188127912" />
-    <state width="1323" height="223" key="GridCell.Tab.1.center/0.0.1366.728@0.0.1366.728" timestamp="1609271915061" />
-    <state width="1323" height="223" key="GridCell.Tab.1.left" timestamp="1609271915061">
+    <state width="1323" height="223" key="GridCell.Tab.1.center/0.0.1366.728@0.0.1366.728" timestamp="1609361307827" />
+    <state width="1323" height="223" key="GridCell.Tab.1.left" timestamp="1609361307827">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state width="1877" height="348" key="GridCell.Tab.1.left/0.0.1366.728/1366.0.1920.1040@1366.0.1920.1040" timestamp="1609188127912" />
-    <state width="1323" height="223" key="GridCell.Tab.1.left/0.0.1366.728@0.0.1366.728" timestamp="1609271915061" />
-    <state width="1323" height="223" key="GridCell.Tab.1.right" timestamp="1609271915061">
+    <state width="1323" height="223" key="GridCell.Tab.1.left/0.0.1366.728@0.0.1366.728" timestamp="1609361307827" />
+    <state width="1323" height="223" key="GridCell.Tab.1.right" timestamp="1609361307827">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state width="1877" height="348" key="GridCell.Tab.1.right/0.0.1366.728/1366.0.1920.1040@1366.0.1920.1040" timestamp="1609188127912" />
-    <state width="1323" height="223" key="GridCell.Tab.1.right/0.0.1366.728@0.0.1366.728" timestamp="1609271915061" />
-    <state x="393" y="178" key="Vcs.Push.Dialog.v2" timestamp="1609354805500">
+    <state width="1323" height="223" key="GridCell.Tab.1.right/0.0.1366.728@0.0.1366.728" timestamp="1609361307827" />
+    <state x="184" y="7" key="SettingsEditor" timestamp="1609359404344">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="184" y="7" key="SettingsEditor/0.0.1366.728@0.0.1366.728" timestamp="1609359404344" />
+    <state x="393" y="178" key="Vcs.Push.Dialog.v2" timestamp="1609356221624">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="1918" y="254" key="Vcs.Push.Dialog.v2/0.0.1366.728/1366.0.1920.1040@1366.0.1920.1040" timestamp="1609190008107" />
-    <state x="393" y="178" key="Vcs.Push.Dialog.v2/0.0.1366.728@0.0.1366.728" timestamp="1609354805500" />
+    <state x="393" y="178" key="Vcs.Push.Dialog.v2/0.0.1366.728@0.0.1366.728" timestamp="1609356221624" />
     <state x="379" y="189" key="com.intellij.ide.util.TipDialog" timestamp="1609183657244">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="379" y="189" key="com.intellij.ide.util.TipDialog/0.0.1366.728@0.0.1366.728" timestamp="1609183657244" />
   </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Server.py</url>
+          <line>63</line>
+          <option name="timeStamp" value="11" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Client.py</url>
+          <line>74</line>
+          <option name="timeStamp" value="12" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Server.py</url>
+          <line>101</line>
+          <option name="timeStamp" value="13" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Hackathon$Client.coverage" NAME="Client Coverage Results" MODIFIED="1609354249371" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/Hackathon$Client2.coverage" NAME="Client2 Coverage Results" MODIFIED="1609353367615" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/Hackathon$Server.coverage" NAME="Server Coverage Results" MODIFIED="1609354225673" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Hackathon$Client.coverage" NAME="Client Coverage Results" MODIFIED="1609361446345" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Hackathon$Client2.coverage" NAME="Client2 Coverage Results" MODIFIED="1609361443002" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Hackathon$Server.coverage" NAME="Server Coverage Results" MODIFIED="1609361559889" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Hackathon$server.coverage" NAME="server Coverage Results" MODIFIED="1609259141157" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$USER_HOME$/Downloads" />
   </component>
 </project>
