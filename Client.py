@@ -22,13 +22,14 @@ def lookingForServer():
 
 def startPlaying(tcpSocket):
     ## game state
-    start = time.time()
-    while time.time() - start < 10:
-        val = getch.getch() ## TODO GETCH
-        tcpSocket.send(bytes(val, "utf-8"))
-    msgFromServer = tcpSocket.recv(1024).decode("utf-8")
-    print(msgFromServer)
-
+    try:
+        start = time.time()
+        while time.time() - start < 10:
+            val = getch.getch() ## TODO GETCH
+            tcpSocket.send(bytes(val, "utf-8"))
+        msgFromServer = tcpSocket.recv(1024).decode("utf-8")
+        print(msgFromServer)
+    except:return
 
 def connectTcp(addr, portNum):
     tcpIp, _ = addr
