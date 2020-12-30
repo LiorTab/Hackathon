@@ -23,7 +23,7 @@ class Server:
         threading.Timer(1.0,self.sendUdpBroadcast).start()
         #  sock.settimeout(2)
         message = struct.pack("Ibh",0xfeedbeef,0x2,self.port)
-        self.udpSocket.sendto(message, ("<broadcast>", 13117)) ## send port to connect with tcp connection
+        self.udpSocket.sendto(message, ("172.1.255.255", 13117)) ## send port to connect with tcp connection
 
 
     def StartClickGame(self,client):
