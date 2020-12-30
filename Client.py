@@ -23,8 +23,8 @@ def lookingForServer():
             sock.settimeout(0.5)
             get_message= sock.recvfrom(1024)
         except:
-            pass
-    return  get_message
+            continue
+    return get_message
 
 def startPlaying(tcpSocket):
     ## game state
@@ -40,8 +40,8 @@ def startPlaying(tcpSocket):
 
 def connectTcp(addr, portNum):
     tcpIp, _ = addr
+    tcpIp="127.0.0.1"
     portNum=2043
-    tcpIp=socket.gethostname()
     tcpSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # TCP
     tcpSocket.connect((tcpIp, portNum))
     tcpSocket.send(bytes("BlackShadow", "utf-8")) # TODO THINK !!!!!!!!!!!!
