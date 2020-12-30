@@ -23,13 +23,18 @@ class Server:
         self.udpSocket.sendto(message, ("<broadcast>", 13117)) ## send port to connect with tcp connection
 
 
-    def StartClickGame(self):
+    def StartClickGame(self,client):
         counter = 0
         start = time.time()
         while time.time() - start < 10:
 
-            #client.settimeout(10)
-            counter += len(client.recv(1024).decode("utf-8"))
+            client.settimeout(10)
+            try:
+                chartype = client.recv(1024).decode("utf-8")
+                print(chartype)
+                counter += len(chartype)
+            except:
+                pass
 
         return counter
 
@@ -48,7 +53,6 @@ if __name__ == '__main__':
     with concurrent.futures.ThreadPoolExecutor(2) as pool:
         while time.time() - startTime < 10:
             # all clients gets this annoucements “Received offer from 172.1.0.4,attempting to connect...”
-
 
             tcpSocket.listen(3)  ## max clients
             startTime = time.time()
@@ -70,24 +74,28 @@ if __name__ == '__main__':
         welcomeMsg = f"Welcome to Keyboard Spamming Battle Royale.\nGroup 1:\n==\n{teams[0]}\nGroup 2:\n==\n{teams[1]}\n\n" \
                      f"Start pressing keys on your keyboard as fast as you can!!"
 
-        time.sleep(10)
+        # time.sleep(10)
         client.sendall(bytes(welcomeMsg,"utf-8"))
         client1.sendall(bytes(welcomeMsg,"utf-8"))
 
-        firstGroup = pool.submit(Server.StartClickGame,client)
-        secondGroup = pool.submit(Server.StartClickGame,client1)
-
+        firstGroup = pool.submit(server.StartClickGame,client)
+        secondGroup = pool.submit(server.StartClickGame,client1)
+        client.sendall(bytes("times up!","utf-8"))
+        client1.sendall(bytes("times up!","utf-8"))
 
         firstGroupRes = firstGroup.result()
         secondGroupRes = secondGroup.result()
-
-        if  firstGroupRes>secondGroupRes:
-            print(f"Group 1 is the Winner")
+        print(f"Game over!\nGroup 1 types in {firstGroupRes} characters. Group 2 typed in {secondGroupRes} characters.")
+        if firstGroupRes>secondGroupRes:
+            print("Group 1 wins!")
         elif secondGroupRes > firstGroupRes:
-            print("Group 2 is the Winner !!")
-        else:print("Draw")
+            print("Group 2 wins!")
+        else:
+            print("Draw")
 
-        client.close()
-        client1.close()
+    client.close()
+    client1.close()
+
+    print("Game over, sending out offer requests...")
 
 

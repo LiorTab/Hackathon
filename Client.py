@@ -8,10 +8,9 @@ import msvcrt
 def startPlaying(tcpSocket):
     start = time.time()
     while time.time() - start < 10:
-        val = msvcrt.getche()
-        print(val)
+        val = input("Enter: ")
         tcpSocket.send(bytes(val, "utf-8"))
-    print("times up!")
+    print("Server disconnected, listening for offer requests...")
 
 
 def connectTcp(addr,recivedData):
