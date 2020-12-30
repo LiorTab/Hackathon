@@ -13,13 +13,14 @@ class Server:
         #self.udpSocket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         self.hostName = socket.gethostname()
         self.hostIP = socket.gethostbyname(self.hostName)
-        self.port = 5555
-        self.StartGameMessage ="Welcome to Keyboard Spamming Battle Royale. \n"
+        self.port = 2043
+        self.teams = []
+
 
     def sendUdpBroadcast(self):
         threading.Timer(1.0,self.sendUdpBroadcast).start()
         #  sock.settimeout(2)
-        message = struct.pack("Ibh",0xfeedbee,0x2,self.port)
+        message = struct.pack("Ibh",0xfeedbeef,0x2,self.port)
         self.udpSocket.sendto(message, ("<broadcast>", 13117)) ## send port to connect with tcp connection
 
 
@@ -31,71 +32,103 @@ class Server:
             client.settimeout(10)
             try:
                 chartype = client.recv(1024).decode("utf-8")
-                print(chartype)
                 counter += len(chartype)
             except:
                 pass
 
         return counter
 
+    def waitForClients(self):
+        startTime = time.time()
+        threading.Thread(target=server.sendUdpBroadcast).start()
+        tcpSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        tcpSocket.bind(("", server.port))
+        tcpSocket.listen()
+        while time.time() - startTime < 10:
+            tcpSocket.settimeout(0.1)
+            try:
+                client, addr = tcpSocket.accept()
+                groupName = client.recv(1024).decode("utf-8")
+                time.sleep(0.1)
+                self.teams.append((client,addr,groupName))
+            except:continue
+
+
+
+
+
 
 if __name__ == '__main__':
+    while 1:
+        server = Server()
+        ## starting msg
+        print(f"Server started,listening on IP address {server.hostIP}")
+        teams = []
+        ## start sending udp offer annoucements via udp broadcast once every second
+        server.waitForClients()
 
-    server = Server()
-    ## starting msg
-    print(f"Server started,listening on IP address {server.hostIP}")
-    teams = []
-    ## start sending udp offer annoucements via udp broadcast once every second
-    threading.Thread(target=server.sendUdpBroadcast).start()
-    startTime = time.time()
-    tcpSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    tcpSocket.bind(("", server.port))
-    with concurrent.futures.ThreadPoolExecutor(2) as pool:
-        while time.time() - startTime < 10:
-            # all clients gets this annoucements “Received offer from 172.1.0.4,attempting to connect...”
+        ## we got players
 
-            tcpSocket.listen(3)  ## max clients
-            startTime = time.time()
-            client, addr = tcpSocket.accept()
 
-            groupName = client.recv(1024).decode("utf-8")
-            time.sleep(0.1)
-            teams.append(groupName)
-            print(f"team {len(teams)} name is {groupName}")
-            client1, addr1 = tcpSocket.accept()
-            groupName1 = client1.recv(1024).decode("utf-8")
-            time.sleep(0.1)
-            teams.append(groupName1)
-            print(f"team {len(teams)} name is {groupName1}")
-            break
+        groupEven = ""
+        groupOdd = ""
+        for i in range(0, len(server.teams), 2):
+            groupEven+=server.teams[i][2]
+        for j in range(1, len(server.teams), 2):
+            groupOdd+=server.teams[j][2]
 
-        print("now we start to play!")
-        ## print group devide
-        welcomeMsg = f"Welcome to Keyboard Spamming Battle Royale.\nGroup 1:\n==\n{teams[0]}\nGroup 2:\n==\n{teams[1]}\n\n" \
+        if len(server.teams) == 0 or len(server.teams) == 1:
+            continue
+
+        welcomeMsg = f"Welcome to Keyboard Spamming Battle Royale.\nGroup 1:\n==\n{groupEven}\nGroup 2:\n==\n{groupOdd}\n\n" \
                      f"Start pressing keys on your keyboard as fast as you can!!"
 
-        # time.sleep(10)
-        client.sendall(bytes(welcomeMsg,"utf-8"))
-        client1.sendall(bytes(welcomeMsg,"utf-8"))
+        for client in server.teams:
+            client[0].sendall(bytes(welcomeMsg, "utf-8"))
 
-        firstGroup = pool.submit(server.StartClickGame,client)
-        secondGroup = pool.submit(server.StartClickGame,client1)
-        client.sendall(bytes("times up!","utf-8"))
-        client1.sendall(bytes("times up!","utf-8"))
 
-        firstGroupRes = firstGroup.result()
-        secondGroupRes = secondGroup.result()
-        print(f"Game over!\nGroup 1 types in {firstGroupRes} characters. Group 2 typed in {secondGroupRes} characters.")
-        if firstGroupRes>secondGroupRes:
-            print("Group 1 wins!")
-        elif secondGroupRes > firstGroupRes:
-            print("Group 2 wins!")
-        else:
-            print("Draw")
+        Group1Res = 0
+        Group2Res = 0
 
-    client.close()
-    client1.close()
+        with concurrent.futures.ThreadPoolExecutor(len(server.teams)) as pool:
+            # time.sleep(10)
 
-    print("Game over, sending out offer requests...")
+            # client1.sendall(bytes(welcomeMsg,"utf-8"))
+            results = []
+            for client in server.teams:
+                clientPlay = pool.submit(server.StartClickGame, client[0])
+                results.append(clientPlay)
+
+
+
+            for i in range(0, len(server.teams), 2):
+                Group1Res += results[i].result()
+            for j in range(1, len(server.teams), 2):
+                Group2Res += results[j].result()
+            winTeam = ''
+            teamsInGroup = ''
+            if Group1Res > Group2Res:
+                winTeam = "Group 1 wins!"
+                teamsInGroup = groupEven
+            elif Group2Res > Group1Res:
+                winTeam = "Group 2 wins!"
+                teamsInGroup = groupOdd
+            else:
+                winTeam = "Draw"
+
+            for client in server.teams:
+                client[0].send(bytes(f"Game over!\nGroup 1 types in {Group1Res} characters. Group 2 typed in {Group2Res} characters.\n{winTeam}\n\nCongratulations to the winners:\n==\n{teamsInGroup}","utf-8"))
+
+
+
+
+
+            for client in server.teams:
+                client[0].close()
+
+
+            print("Game over, sending out offer requests...")
+
+
 
 

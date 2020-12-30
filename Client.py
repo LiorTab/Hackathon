@@ -1,62 +1,75 @@
 import socket
 import struct
 import time
-#import getch
-import msvcrt
+
+
+import getch
+# import msvcrt
+
+# def __init__(self):
+#     self.udpSocket =         sock = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
+#     sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1) ## multi clients
+#     sock.bind(("",13117))
+
+
+def lookingForServer():
+    ## state 1
+    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)  ## multi clients
+    sock.bind(("", 13117))
+    return sock.recvfrom(1024)
 
 
 def startPlaying(tcpSocket):
+    ## game state
     start = time.time()
     while time.time() - start < 10:
-        val = input("Enter: ")
+        val = getch.getch() ## TODO GETCH
         tcpSocket.send(bytes(val, "utf-8"))
-    print("Server disconnected, listening for offer requests...")
+    msgFromServer = tcpSocket.recv(1024).decode("utf-8")
+    print(msgFromServer)
 
 
-def connectTcp(addr,recivedData):
-    tcpIp,tcpPort = addr
-    tcpSocket = socket.socket(socket.AF_INET,socket.SOCK_STREAM) #TCP
-    print(tcpIp)
-    print(tcpPort)
-    tcpSocket.connect((tcpIp,5555))
-
-    tcpSocket.send(bytes("Dolphin","utf-8"))
+def connectTcp(addr, portNum):
+    tcpIp, _ = addr
+    tcpSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # TCP
+    tcpSocket.connect((tcpIp, portNum))
+    tcpSocket.send(bytes("BlackShadow", "utf-8")) # TODO THINK !!!!!!!!!!!!
     data = tcpSocket.recv(1024).decode("utf-8")
-    print(data) ## print welcome msg
+    print(data)  ## print welcome msg
+    ## game state
     startPlaying(tcpSocket)
 
 
-def checkMessageTypes(recivedData):
-    return True
+def getPort(receivedData):
+    # check if message is correct type - if yes return port number else return None
+    try:
+        print(struct.unpack("Ibh", receivedData))
+        unPackMsg = struct.unpack("Ibh", receivedData)
+        if unPackMsg[0] != 4276993775 or unPackMsg[1] != 2 or unPackMsg[2] < 1024 or unPackMsg[2] > 32768:
+            return None
+    except:  # message format not good (needs to be "Ibh")
+        return None
+    return unPackMsg[2]
 
 
 def startClient():
     print("Client started, listening for offer requests...")
     ## wait for offers
-    udp_ip = "255.255.255.255"
-    udp_port = 5005
-    flag = 0
-
-    sock = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
-    sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1) ## multi clients
-    sock.bind(("",13117))
-    recivedData, addr = sock.recvfrom(1024)  ## check buffer size
-    print(f"Received offer from {addr[0]},attempting to connect...")
-
-    while 1:
-
-        # print(addr)
-        # print(struct.unpack("Ibh",recivedData))
-        #sock.close()
+    while True:
+        receivedData, addr = lookingForServer()  ## check buffer size
+        print(f"Received offer from {addr[0]},attempting to connect...")
+        ## state 2
+        # print(struct.unpack("Ibh",receivedData))
         # verify what message
-        check = checkMessageTypes(recivedData)
-        ## what rejected means ?!?!?!!?!?
-        if not check:break
+        portNum = getPort(receivedData)  # if message type is not good - returns None
+        ## TODO what rejected means ?!?!?!!?!
+        if portNum is None:
+            continue
         ## attempting to connect TCP
-        if flag==0:
-            connectTcp(addr,recivedData)
-            flag=1
-        # break ?
+        connectTcp(addr, portNum)
+        print("Server disconnected, listening for offer requests...")
+        ## continue to wait for offers
 
 
 startClient()
