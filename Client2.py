@@ -1,15 +1,11 @@
 import socket
 import struct
 import time
+from termcolor import colored
 
 
 import getch
 # import msvcrt
-
-# def __init__(self):
-#     self.udpSocket =         sock = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
-#     sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1) ## multi clients
-#     sock.bind(("",13117))
 
 
 def lookingForServer():
@@ -23,28 +19,28 @@ def lookingForServer():
             sock.settimeout(0.5)
             get_message= sock.recvfrom(1024)
         except:
-            pass
-    return  get_message
+            continue
+    return get_message
 
 def startPlaying(tcpSocket):
     ## game state
     try:
         start = time.time()
         while time.time() - start < 10:
-            val = getch.getch() ## TODO GETCH
+            val = getch.getch()
             tcpSocket.sendall(bytes(val, "utf-8"))
         msgFromServer = tcpSocket.recv(1024).decode("utf-8")
-        print(msgFromServer)
+        print(colored(msgFromServer,'blue'))
     except:
         return
 
 def connectTcp(addr, portNum):
     tcpIp, _ = addr
-    portNum=2043
-    tcpIp=socket.gethostname()
+    #tcpIp="127.0.0.1"  # for check our server
+    #portNum=2043
     tcpSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # TCP
     tcpSocket.connect((tcpIp, portNum))
-    tcpSocket.send(bytes("BlackShadow", "utf-8")) # TODO THINK !!!!!!!!!!!!
+    tcpSocket.send(bytes("BlackShadow"+"\n", "utf-8"))
     data = tcpSocket.recv(1024).decode("utf-8")
     print(data)  ## print welcome msg
     ## game state
@@ -62,18 +58,18 @@ def getPort(receivedData):
         return None
     return unPackMsg[2]
 
-
+## Flow of Client
 def startClient():
-    print("Client started, listening for offer requests...")
+    print(colored("Client started, listening for offer requests...",'yellow'))
     ## wait for offers
     while True:
         receivedData, addr = lookingForServer()  ## check buffer size
-        print(f"Received offer from {addr[0]},attempting to connect...")
+        print(colored(f"Received offer from {addr[0]},attempting to connect...",'red'))
         ## state 2
         # print(struct.unpack("Ibh",receivedData))
         # verify what message
         portNum = getPort(receivedData)  # if message type is not good - returns None
-        ## TODO what rejected means ?!?!?!!?!
+        ## continue wait for others if None
         if portNum is None:
             continue
         ## attempting to connect TCP
@@ -81,7 +77,7 @@ def startClient():
             connectTcp(addr, portNum)
         except:
             continue
-        print("Server disconnected, listening for offer requests...")
+        print(colored("Server disconnected, listening for offer requests...",'blue'))
         ## continue to wait for offers
 
 
